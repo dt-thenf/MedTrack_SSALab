@@ -1,0 +1,34 @@
+{
+  "name": "projects/1467122588185066807",
+  "projectId": "1467122588185066807",
+  "title": "MedTrack Hospital Dashboard",
+  "visibility": "PRIVATE",
+  "createTime": "2026-04-03T13:19:07.211053Z",
+  "updateTime": "2026-04-03T13:21:39Z",
+  "projectType": "PROJECT_DESIGN",
+  "origin": "STITCH",
+  "deviceType": "DESKTOP",
+  "designTheme": {
+    "colorMode": "LIGHT",
+    "font": "INTER",
+    "roundness": "ROUND_FULL",
+    "customColor": "#1E6BB8",
+    "headlineFont": "INTER",
+    "bodyFont": "INTER",
+    "labelFont": "INTER"
+  },
+  "designSystemAssetId": "3144565cdf9c45c7accc347906c15a57",
+  "screens": {
+    "index": {
+      "id": "b60547a0a43e4bb18ec6a13f41bdf230",
+      "sourceScreen": "projects/1467122588185066807/screens/b60547a0a43e4bb18ec6a13f41bdf230",
+      "x": 0,
+      "y": 0,
+      "width": 2560,
+      "height": 3784
+    }
+  },
+  "metadata": {
+    "userRole": "OWNER"
+  }
+}

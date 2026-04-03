@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MedTrack | Patient Monitoring Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#eff1f3",
+                        "background": "#f7f9fb",
+                        "primary-container": "#1e6bb8",
+                        "on-tertiary-container": "#99ffcd",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-secondary-fixed": "#111c2d",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-tint": "#015fac",
+                        "on-secondary": "#ffffff",
+                        "outline": "#727782",
+                        "on-primary-fixed-variant": "#004883",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d4e3ff",
+                        "tertiary-container": "#007952",
+                        "on-primary-container": "#e1ebff",
+                        "surface-bright": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "secondary-container": "#d5e0f8",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d8e3fb",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7f9fb",
+                        "on-surface-variant": "#414751",
+                        "tertiary": "#005e3f",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a4c9ff",
+                        "on-background": "#191c1e",
+                        "primary": "#005296",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-secondary-container": "#586377",
+                        "outline-variant": "#c1c7d3",
+                        "inverse-primary": "#a4c9ff",
+                        "on-primary-fixed": "#001c39",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-fixed-variant": "#005236"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .animate-pulse-critical {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #f7f9fb 0%, #e1ebff 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-4 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="text-blue-800 dark:text-blue-300 font-bold text-xl flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+            MedTrack
+        </div>
+<div class="hidden md:flex items-center gap-8 font-inter tracking-tight label-md: text-xs font-medium">
+<a class="text-blue-700 dark:text-blue-400 border-b-2 border-blue-700 dark:border-blue-400 pb-1 font-semibold" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors" href="#">Patients</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors" href="#">Devices</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors" href="#">Alerts</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-error text-on-error px-4 py-2 rounded-full text-xs font-bold animate-pulse-critical">
+                Critical Alerts (3)
+            </button>
+<div class="flex items-center gap-2 text-on-surface-variant text-xs font-medium border-l border-outline-variant pl-4">
+<span>VI|EN</span>
+<span class="material-symbols-outlined p-2 hover:bg-slate-100 rounded-full cursor-pointer" data-icon="search">search</span>
+<img alt="Doctor profile" class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="Close up portrait of a professional healthcare doctor in white lab coat with a warm clinical confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7ndEqwZFwwy-obhyn5882H0omOcnK44Ijw_V05fAglehxUExYrW4BjKkv8FWNvzaHjCLqaIvOd5lT66C0t3NKcwwbvgyUUUsFFGUHme9gRxhpJKgGeKLkcruVb5rdGsKadn43xqB1xulrKBs5lJpanUoET3H5EQrO3TV-iXcoenw4XSxcaqfY9Jqq74IzrHtbPEVcMsScVs55_osYQfPsE7iPOsVhNkXyEQsGOdaStYotXMH1I0C8eubgrZ100mgyYtPHQzjzj68"/>
+</div>
+</div>
+</nav>
+<main class="mt-20 flex-grow">
+<!-- Hero Section -->
+<section class="hero-gradient px-8 py-20 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none flex items-center">
+<img class="w-full h-full object-cover" data-alt="abstract clinical representation of a digital heart rate heartbeat wave line glowing softly against a medical blue backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP4FIYtFsS19HYDVbL5hzUpnjPh_2Wn3Ubdfhu0UM4Od167-zDY6rVM_r5IGNhX5H2U0ecNhIuUVi-0_nsBFn4g37nazAYlKaW527FbmrG23fMmmXzLjiQucSolMHLnuV9IILXdVMXBUWLkxIx_bCnOtam6B20l3hK_iyHyyyYpefq2NI2NZE9W8mnIv2mLjhOP3KyTOJx0c42liWXRfAQGkrl_n_Kk2xloGNsgtntTCOqZdzRMU6-KRH58skMc5KQifoDSK9_mjA"/>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto">
+<div class="max-w-3xl mb-12">
+<h1 class="text-[60px] leading-tight font-bold text-on-background font-headline tracking-tight mb-4">
+                        Real-time Patient Monitoring
+                    </h1>
+<p class="text-[20px] text-on-surface-variant leading-relaxed">
+                        Monitor patient vital signs, detect abnormalities, and manage devices in one intuitive interface. Engineered for clinical precision.
+                    </p>
+<div class="flex gap-4 mt-8">
+<button class="bg-error text-on-error px-8 py-3 rounded-full font-semibold shadow-lg hover:brightness-110 transition-all scale-95 duration-150 active:scale-95">
+                            View Critical Alerts
+                        </button>
+<button class="border-2 border-primary text-primary px-8 py-3 rounded-full font-semibold hover:bg-primary/5 transition-all">
+                            Open Patient Dashboard
+                        </button>
+</div>
+</div>
+<!-- Stat Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest/80 backdrop-blur-xl p-6 rounded-lg shadow-sm border border-white/50">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="groups">groups</span>
+<span class="text-on-surface-variant text-sm font-medium">Total Patients</span>
+</div>
+<div class="text-[3.5rem] font-bold text-primary leading-none">248</div>
+</div>
+<div class="bg-error-container/80 backdrop-blur-xl p-6 rounded-lg shadow-sm border border-error/20">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-error text-3xl" data-icon="warning">warning</span>
+<span class="text-on-error-container text-sm font-medium">Critical Alerts</span>
+</div>
+<div class="text-[3.5rem] font-bold text-error leading-none">3</div>
+</div>
+<div class="bg-surface-container-lowest/80 backdrop-blur-xl p-6 rounded-lg shadow-sm border border-white/50">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="sensors">sensors</span>
+<span class="text-on-surface-variant text-sm font-medium">Devices Online</span>
+</div>
+<div class="text-[3.5rem] font-bold text-tertiary leading-none">186</div>
+</div>
+<div class="bg-surface-container-lowest/80 backdrop-blur-xl p-6 rounded-lg shadow-sm border border-white/50">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="door_front">door_front</span>
+<span class="text-on-surface-variant text-sm font-medium">Rooms Active</span>
+</div>
+<div class="text-[3.5rem] font-bold text-primary leading-none">42</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Search & Filter Bar -->
+<section class="px-8 py-8 -mt-6 relative z-20">
+<div class="max-w-7xl mx-auto bg-surface-container-lowest rounded-full p-2 shadow-sm border border-outline-variant/10 flex flex-wrap md:flex-nowrap items-center gap-4">
+<div class="flex-grow flex items-center pl-6 gap-3">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface" placeholder="Search by patient name or ID..." type="text"/>
+</div>
+<div class="flex items-center gap-2 pr-2">
+<select class="bg-surface-container-low border-none rounded-full px-4 text-sm text-on-surface-variant focus:ring-2 ring-primary">
+<option>Ward A - Cardiology</option>
+<option>Ward B - ICU</option>
+</select>
+<select class="bg-surface-container-low border-none rounded-full px-4 text-sm text-on-surface-variant focus:ring-2 ring-primary">
+<option>Room All</option>
+<option>Room 101-110</option>
+</select>
+<select class="bg-surface-container-low border-none rounded-full px-4 text-sm text-on-surface-variant focus:ring-2 ring-primary">
+<option>Alert Level</option>
+<option>Critical Only</option>
+</select>
+<button class="text-primary font-semibold px-4 hover:bg-primary/5 rounded-full py-2 text-sm">
+                        Reset Filters
+                    </button>
+</div>
+</div>
+</section>
+<!-- Patient Cards Grid & Sidebar -->
+<section class="px-8 pb-20 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Main Grid -->
+<div class="lg:col-span-3">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Patient Card Critical -->
+<div class="bg-surface-container-lowest rounded-lg p-6 border-l-4 border-error shadow-sm flex flex-col h-full relative overflow-hidden group">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-lg font-bold text-on-surface">Elena Rodriguez</h3>
+<p class="text-xs text-on-surface-variant font-medium">ID: #MT-8842 • Room 204/B</p>
+</div>
+<span class="bg-error/10 text-error px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse-critical">Critical</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-8 flex-grow">
+<div class="text-center">
+<span class="material-symbols-outlined text-error text-xl mb-1" data-icon="favorite">favorite</span>
+<div class="text-xl font-bold text-on-surface">112</div>
+<div class="text-[10px] text-on-surface-variant font-medium">BPM</div>
+</div>
+<div class="text-center border-x border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-xl mb-1" data-icon="water_drop">water_drop</span>
+<div class="text-xl font-bold text-on-surface">88%</div>
+<div class="text-[10px] text-on-surface-variant font-medium">SpO2</div>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined text-secondary text-xl mb-1" data-icon="air">air</span>
+<div class="text-xl font-bold text-on-surface">24</div>
+<div class="text-[10px] text-on-surface-variant font-medium">RPM</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-3 rounded-full font-semibold text-sm hover:bg-primary hover:text-on-primary transition-all">View Details</button>
+</div>
+<!-- Patient Card Normal -->
+<div class="bg-surface-container-lowest rounded-lg p-6 border-l-4 border-tertiary shadow-sm flex flex-col h-full group">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-lg font-bold text-on-surface">Marcus Thorne</h3>
+<p class="text-xs text-on-surface-variant font-medium">ID: #MT-9012 • Room 108/A</p>
+</div>
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Normal</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-8 flex-grow">
+<div class="text-center">
+<span class="material-symbols-outlined text-tertiary text-xl mb-1" data-icon="favorite">favorite</span>
+<div class="text-xl font-bold text-on-surface">72</div>
+<div class="text-[10px] text-on-surface-variant font-medium">BPM</div>
+</div>
+<div class="text-center border-x border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-xl mb-1" data-icon="water_drop">water_drop</span>
+<div class="text-xl font-bold text-on-surface">98%</div>
+<div class="text-[10px] text-on-surface-variant font-medium">SpO2</div>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined text-secondary text-xl mb-1" data-icon="air">air</span>
+<div class="text-xl font-bold text-on-surface">16</div>
+<div class="text-[10px] text-on-surface-variant font-medium">RPM</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-3 rounded-full font-semibold text-sm hover:bg-primary hover:text-on-primary transition-all">View Details</button>
+</div>
+<!-- Patient Card Watch -->
+<div class="bg-surface-container-lowest rounded-lg p-6 border-l-4 border-secondary shadow-sm flex flex-col h-full group">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-lg font-bold text-on-surface">Sarah Jenkins</h3>
+<p class="text-xs text-on-surface-variant font-medium">ID: #MT-4421 • Room 305/C</p>
+</div>
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Watch</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-8 flex-grow">
+<div class="text-center">
+<span class="material-symbols-outlined text-secondary text-xl mb-1" data-icon="favorite">favorite</span>
+<div class="text-xl font-bold text-on-surface">94</div>
+<div class="text-[10px] text-on-surface-variant font-medium">BPM</div>
+</div>
+<div class="text-center border-x border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-xl mb-1" data-icon="water_drop">water_drop</span>
+<div class="text-xl font-bold text-on-surface">94%</div>
+<div class="text-[10px] text-on-surface-variant font-medium">SpO2</div>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined text-secondary text-xl mb-1" data-icon="air">air</span>
+<div class="text-xl font-bold text-on-surface">20</div>
+<div class="text-[10px] text-on-surface-variant font-medium">RPM</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-3 rounded-full font-semibold text-sm hover:bg-primary hover:text-on-primary transition-all">View Details</button>
+</div>
+<!-- Repeat Rows with variety -->
+<div class="bg-surface-container-lowest rounded-lg p-6 border-l-4 border-tertiary shadow-sm flex flex-col h-full">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-lg font-bold text-on-surface">Arthur Wu</h3>
+<p class="text-xs text-on-surface-variant font-medium">ID: #MT-2190 • Room 112/D</p>
+</div>
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Normal</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-8 flex-grow">
+<div class="text-center">
+<div class="text-xl font-bold text-on-surface">68</div>
+<div class="text-[10px] text-on-surface-variant font-medium">BPM</div>
+</div>
+<div class="text-center border-x border-outline-variant/20">
+<div class="text-xl font-bold text-on-surface">99%</div>
+<div class="text-[10px] text-on-surface-variant font-medium">SpO2</div>
+</div>
+<div class="text-center">
+<div class="text-xl font-bold text-on-surface">14</div>
+<div class="text-[10px] text-on-surface-variant font-medium">RPM</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-3 rounded-full font-semibold text-sm hover:bg-primary hover:text-on-primary transition-all">View Details</button>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-6 border-l-4 border-error shadow-sm flex flex-col h-full">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-lg font-bold text-on-surface">David Miller</h3>
+<p class="text-xs text-on-surface-variant font-medium">ID: #MT-3381 • Room 202/A</p>
+</div>
+<span class="bg-error/10 text-error px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse-critical">Critical</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-8 flex-grow">
+<div class="text-center">
+<div class="text-xl font-bold text-on-surface">124</div>
+<div class="text-[10px] text-on-surface-variant font-medium">BPM</div>
+</div>
+<div class="text-center border-x border-outline-variant/20">
+<div class="text-xl font-bold text-on-surface">82%</div>
+<div class="text-[10px] text-on-surface-variant font-medium">SpO2</div>
+</div>
+<div class="text-center">
+<div class="text-xl font-bold text-on-surface">28</div>
+<div class="text-[10px] text-on-surface-variant font-medium">RPM</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-3 rounded-full font-semibold text-sm hover:bg-primary hover:text-on-primary transition-all">View Details</button>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-6 border-l-4 border-tertiary shadow-sm flex flex-col h-full">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-lg font-bold text-on-surface">Lisa Henderson</h3>
+<p class="text-xs text-on-surface-variant font-medium">ID: #MT-7761 • Room 401/B</p>
+</div>
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Normal</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-8 flex-grow">
+<div class="text-center">
+<div class="text-xl font-bold text-on-surface">76</div>
+<div class="text-[10px] text-on-surface-variant font-medium">BPM</div>
+</div>
+<div class="text-center border-x border-outline-variant/20">
+<div class="text-xl font-bold text-on-surface">97%</div>
+<div class="text-[10px] text-on-surface-variant font-medium">SpO2</div>
+</div>
+<div class="text-center">
+<div class="text-xl font-bold text-on-surface">18</div>
+<div class="text-[10px] text-on-surface-variant font-medium">RPM</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-3 rounded-full font-semibold text-sm hover:bg-primary hover:text-on-primary transition-all">View Details</button>
+</div>
+</div>
+</div>
+<!-- Recent Alerts Sidebar -->
+<div class="lg:col-span-1">
+<div class="bg-surface-container-low rounded-lg p-6 sticky top-24">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-bold text-on-surface">Recent Alerts</h2>
+<span class="material-symbols-outlined text-primary cursor-pointer" data-icon="history">history</span>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm border-l-4 border-error">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[10px] font-bold text-error uppercase">Critical</span>
+<span class="text-[10px] text-on-surface-variant">20:12</span>
+</div>
+<div class="text-sm font-bold text-on-surface">Elena Rodriguez</div>
+<div class="text-xs text-on-surface-variant">Tachycardia Alert - HR 122</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[10px] font-bold text-secondary uppercase">Watch</span>
+<span class="text-[10px] text-on-surface-variant">20:08</span>
+</div>
+<div class="text-sm font-bold text-on-surface">Sarah Jenkins</div>
+<div class="text-xs text-on-surface-variant">Desaturation - SpO2 91%</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm border-l-4 border-error">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[10px] font-bold text-error uppercase">Critical</span>
+<span class="text-[10px] text-on-surface-variant">20:01</span>
+</div>
+<div class="text-sm font-bold text-on-surface">David Miller</div>
+<div class="text-xs text-on-surface-variant">Apnea Alert - Resp Rate 0</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm border-l-4 border-tertiary">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[10px] font-bold text-tertiary uppercase">Normal</span>
+<span class="text-[10px] text-on-surface-variant">19:55</span>
+</div>
+<div class="text-sm font-bold text-on-surface">Marcus Thorne</div>
+<div class="text-xs text-on-surface-variant">BP Stable - 120/80</div>
+</div>
+</div>
+<button class="w-full mt-6 text-primary text-sm font-bold flex items-center justify-center gap-2">
+                        View All History <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Device Status Section -->
+<section class="px-8 pb-20 max-w-7xl mx-auto">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-2xl font-bold text-on-surface">Device Status</h2>
+<div class="flex gap-4">
+<span class="flex items-center gap-2 text-xs font-medium text-tertiary"><span class="w-2 h-2 rounded-full bg-tertiary"></span> 186 Online</span>
+<span class="flex items-center gap-2 text-xs font-medium text-error"><span class="w-2 h-2 rounded-full bg-error"></span> 2 Offline</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg overflow-hidden">
+<table class="w-full text-left text-sm">
+<thead>
+<tr class="text-on-surface-variant border-b border-outline-variant/20">
+<th class="px-6 py-4 font-semibold">Device Name</th>
+<th class="px-6 py-4 font-semibold">Assigned Patient</th>
+<th class="px-6 py-4 font-semibold">Connection</th>
+<th class="px-6 py-4 font-semibold">Battery</th>
+<th class="px-6 py-4 font-semibold">Last Sync</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-medium">Bedside Monitor V4</td>
+<td class="px-6 py-4">Elena Rodriguez</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Online</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 85%"></div>
+</div>
+<span class="text-[10px]">85%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Just now</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-medium">Infusion Pump Smart-X</td>
+<td class="px-6 py-4">Marcus Thorne</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Online</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 42%"></div>
+</div>
+<span class="text-[10px]">42%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">2m ago</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-medium">Ventilator Pro-3</td>
+<td class="px-6 py-4">Sarah Jenkins</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-error"></span> Offline</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-sm" data-icon="battery_alert">battery_alert</span>
+<span class="text-[10px]">--</span>
+</div>
+</td>
+<td class="px-6 py-4 text-error">Lost 4m ago</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 flex justify-between items-center w-full px-8 py-3 h-12 docked full-width bottom-0 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2 font-inter text-xs text-slate-500 dark:text-slate-400">
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,94,63,0.5)]"></span>
+            All Systems Operational
+        </div>
+<div class="font-inter text-xs text-slate-500 dark:text-slate-400">
+            Last Updated: Apr 3, 2026 — 20:15
+        </div>
+<div class="flex items-center gap-6 font-inter text-xs text-slate-500 dark:text-slate-400">
+<a class="hover:text-blue-500 dark:hover:text-blue-300 transition-colors" href="#">Help Center</a>
+<span class="text-slate-400 dark:text-slate-500">© 2026 MedTrack Solutions</span>
+</div>
+</footer>
+</body></html>
